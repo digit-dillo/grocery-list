@@ -1,0 +1,40 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Rubik', sans-serif;
+    background-color: #EEF0F4;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    min-width: 300px;
+    max-width: 320px; /*<--- we do this so we guarantee all devices, even small ones, can display it*/
+    margin: 50px auto;
+    gap: 10px;
+    align-items: center;
+}
+
+input {
+    color: #432000;
+    background-color: #DCE1EB;
+    border-radius: 8px;
+    border: none;
+    padding: 10px 0;
+    width: 90%;
+    text-align: center;
+    font-family: 'Rubik', sans-serif;
+    font-size: 20px;
+}
+
+button {
+    color: #FDFDFD;
+    background-color: #AC485A;
+    border-radius: 8px;
+    border: none;
+    padding: 10px 0;
+    width: 90%;
+    font-family: 'Rubik', sans-serif;
+    font-size: 20px;
+}
