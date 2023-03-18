@@ -1,6 +1,7 @@
 
+// FIREBASE SETUP ============================================================================= //
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 const appSettings = {
     databaseURL: "https://playground-bf5b1-default-rtdb.firebaseio.com/"
@@ -12,28 +13,40 @@ const database = getDatabase(app);
 const groceryItemsInDB = ref(database, "groceryList"); // here we created the reference / table to put things in.
 
 
+// LIST FUNCTIONALITY ============================================================================= //
 // get button
 const button = document.getElementById("add-button");
 
-// get textbox
-const textbox = document.getElementById("input-field");
+// get ul
+const shoppingList = document.getElementById("shopping-list");
 
 // if button is clicked, get value from textbox and console log it
 button.addEventListener('click', function() {
+    // get textbox
+    const textbox = document.getElementById("input-field");
     let input = textbox.value;
     push(groceryItemsInDB, input); // use firebase's push function to add to the db
-    addToShoppingList(input);
-    console.log(input);
-    textbox.value = "";
+    clearTextBox(textbox);
 });
-
-// Challenge: Append a new <li> with text content inputValue to the 'shopping-list' <ul>
-
-// get ul
-const shoppingList = document.getElementById("shopping-list");
 
 function addToShoppingList(itemToAdd) {
     // add to list
     shoppingList.innerHTML += `<li>${itemToAdd}</li>`;
 }
+
+function clearTextBox(textboxToClear) {
+    textboxToClear.value = "";
+}
+
+function clearShoppingList() {
+    shoppingList.innerHTML = "";
+}
+
+onValue(groceryItemsInDB, function(snapshot) { // snapshot is current data in db
+    const itemsArray = Object.values(snapshot.val()); 
+    clearShoppingList();
+    for (let i = 0; i < itemsArray.length; i++) {
+        addToShoppingList(itemsArray[i]);
+    }
+});
 
